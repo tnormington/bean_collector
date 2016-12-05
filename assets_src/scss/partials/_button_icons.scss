@@ -1,0 +1,25 @@
+.button.beans:before {
+    background-image: url('../images/beans.png');
+}
+.button.bean-plants:before {
+    background-image: url('../images/bean_plant.png');
+}
+.button.upgrade-bean-plants:before {
+    background-image: url('../images/bean_plant_upgrade.png');
+}
+.button.bean-extract:before {
+    background-image: url('../images/bean_extract.png');
+}
+
+.button.bean-potion:before {
+    background-image: url('../images/bean_potion.png');
+}
+
+.game-details {
+    .beans:before {
+        background-image: url('../images/beans.png');
+    }
+    .bean-plants:before {
+        background-image: url('../images/bean_plant.png');
+    }
+}

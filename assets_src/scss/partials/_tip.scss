@@ -1,0 +1,47 @@
+.tip {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    // margin-left: 1em;
+    top: 50%;
+    transform: translateY(-50%);
+    position: absolute;
+    right: 1em;
+}
+
+.tip-content {
+    position: absolute;
+    width: 0%;
+    background-color: black;
+    color: white;
+    padding: 0.5em;
+    font-size: 0.65em;
+    right: calc(100% + 0.5em);
+    top: 50%;
+    margin: 0;
+    border-radius: 3px;
+    /*min-width: 350px;*/
+    transform: translateY(-50%);
+    display: none;
+}
+
+.tip-content.active {
+    width: 320px;
+    display: block;
+}
+
+.tip-toggle.fa-close {
+    color: $red;
+}
+
+.tip-toggle {
+    color: $blue;
+    cursor: pointer;
+    transition: all 0.15s ease-out;
+    opacity: 0.8;
+}
+
+.tip-toggle:hover {
+    opacity: 1;
+    transform: scale(1.2);
+}

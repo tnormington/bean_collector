@@ -1,0 +1,5 @@
+baseurl: /bean_collector
+
+exclude: [
+  assets_src
+]

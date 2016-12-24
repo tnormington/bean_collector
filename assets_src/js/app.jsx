@@ -1,24 +1,25 @@
-const debug = true;
+// const debug = true;
 
-console.log('test');
-
-class ButtonOptions extends React.Component {
+class ButtonOptions extends Button {
     constructor(props) {
         super(props);
+        this.state = {
+
+        }
     }
-    
+
     render() {
         const options = this.props.options.map((option) => {
             return (
-                <span 
+                <span
                     key={option.toLowerCase()}
                     className={ option.toLowerCase() + " option"}>
                     {option}
                 </span>
             )
         })
-        
-        return ( 
+
+        return (
             <span className="options">
                 {options}
             </span>
@@ -35,18 +36,18 @@ class Button extends React.Component {
             options: this.props.options
         };
     }
-    
+
     classNames() {
         return this.props.classes + ' button';
     }
-    
+
     toggleTip(e) {
         e.stopPropagation();
         this.setState((prevState) => ({
             tipShown: !prevState.tipShown
         }))
     }
-    
+
     costClassNames() {
         if(this.props.canAfford) {
             return 'cost';
@@ -54,14 +55,14 @@ class Button extends React.Component {
             return 'cost cannot-afford';
         }
     }
-    
-    
-    
-    
+
+
+
+
     render() {
         return (
-            <button 
-                className={this.classNames()} 
+            <button
+                className={this.classNames()}
                 onClick={this.props.onClick}
                 disabled={!this.props.canAfford}
                 >
@@ -74,11 +75,11 @@ class Button extends React.Component {
                         Level: {((this.props.level - 1) / 0.05).toFixed() }
                     </span>
                 }
-                { this.props.options && 
+                { this.props.options &&
                     <ButtonOptions options={this.props.options} />
                 }
                 { this.props.tip &&
-                    <Tip 
+                    <Tip
                         tip={this.props.tip}
                         tipShown={this.state.tipShown}
                         onClick={(e) => this.toggleTip(e)}
@@ -94,7 +95,7 @@ class Tip extends React.Component {
     constructor(props) {
         super(props);
     }
-    
+
     calculateContentClass() {
         if(this.props.tipShown) {
             return 'active tip-content';
@@ -102,7 +103,7 @@ class Tip extends React.Component {
             return 'tip-content';
         }
     }
-    
+
     calculateIconClass() {
         if(this.props.tipShown) {
             return 'tip-toggle fa fa-close';
@@ -110,7 +111,7 @@ class Tip extends React.Component {
             return 'tip-toggle fa fa-info-circle';
         }
     }
-    
+
     render() {
         return (
             <span className="tip">
@@ -146,29 +147,29 @@ class Game extends React.Component {
             }
         }
     }
-    
+
     incrementValue(i, value) {
         this.setState((prevState) => ({
             [value]: prevState[value] + i
         }))
     }
-    
+
     decrementValue(i, value) {
         this.setState((prevState) => ({
             [value]: prevState[value] - i
         }))
     }
-    
+
     upgradeCollector(collector, rate) {
         this.setState((prevState) => ({
             [collector]: (prevState[collector] + rate)
         }))
     }
-    
+
     calculateBps() {
         let bps = 0;
         let bean_plants = 0;
-        
+
         if(this.state.bean_plants !== null) {
             bean_plants = this.state.bean_plants;
         }
@@ -178,7 +179,7 @@ class Game extends React.Component {
         });
         return bps;
     }
-    
+
     canIAfford(cost, item) {
         if(this.state[item] >= cost) {
             return true;
@@ -186,7 +187,7 @@ class Game extends React.Component {
             return false;
         }
     }
-    
+
     componentDidMount() {
         console.log('component mounted!');
         setInterval(() => {
@@ -194,9 +195,9 @@ class Game extends React.Component {
             beans: prevState.beans + this.calculateBps()/10,
         }))}, 100);
     }
-    
+
     render() {
-        
+
         return (
             <div className="game">
                 <section className="game-details">
@@ -208,17 +209,17 @@ class Game extends React.Component {
                             BPS: <span className="value">{this.state.bps.toFixed(2)}</span>
                         </div>
                     }
-                    { this.state.bean_plants !== null && 
+                    { this.state.bean_plants !== null &&
                         <div className="bean-plants">
                             Bean Plants: <span className="value">{this.state.bean_plants}</span>
                         </div>
                     }
-                    { this.state.bean_extract !== null && 
+                    { this.state.bean_extract !== null &&
                         <div className="bean-extract">
                             Bean Extract: <span className="value">{this.state.bean_extract}</span>
                         </div>
                     }
-                    { this.state.bean_potion !== null && 
+                    { this.state.bean_potion !== null &&
                         <div className="bean-potions">
                             Bean Potion: <span className="value">{this.state.bean_potion}</span>
                         </div>
@@ -226,20 +227,20 @@ class Game extends React.Component {
                 </section>
                 <section className="game-buttons">
                     <h2>Purchases</h2>
-                    <Button 
+                    <Button
                         onClick={() => {
                             this.incrementValue(1, 'beans');
-                        }} 
+                        }}
                         text="Collect Beans"
                         classes="beans"
                         canAfford={true}
                     />
                     { this.state.beans !== null &&
-                        <Button 
+                        <Button
                             onClick={() => {
                                 this.decrementValue(10, 'beans');
                                 this.incrementValue(1, 'bean_plants');
-                            }} 
+                            }}
                             text="Plant Beans"
                             cost="10 Beans"
                             classes="bean-plants"
@@ -247,12 +248,12 @@ class Game extends React.Component {
                             canAfford={this.canIAfford(10, 'beans')}
                         />
                     }
-                    { this.state.bean_plants !== null && 
-                        <Button 
+                    { this.state.bean_plants !== null &&
+                        <Button
                             onClick={() => {
                                 this.decrementValue(5, 'bean_plants');
                                 this.incrementValue(1, 'bean_extract');
-                            }} 
+                            }}
                             text="Create Bean Extract"
                             cost="5 Bean Plants"
                             classes="bean-extract"
@@ -260,12 +261,12 @@ class Game extends React.Component {
                             canAfford={this.canIAfford(5, 'bean_plants')}
                         />
                     }
-                    { this.state.bean_extract !== null && 
-                        <Button 
+                    { this.state.bean_extract !== null &&
+                        <Button
                             onClick={() => {
                                 this.decrementValue(5, 'bean_extract');
                                 this.incrementValue(1, 'bean_potion');
-                            }} 
+                            }}
                             text="Create Bean Potion"
                             cost="5 Bean Extract"
                             classes="bean-potion"
@@ -276,10 +277,10 @@ class Game extends React.Component {
                     }
                 </section>
                 <section className="upgrades">
-                    { this.state.bean_plants !== null && 
+                    { this.state.bean_plants !== null &&
                         <h2>Upgrades</h2>
                     }
-                    { this.state.bean_plants !== null && 
+                    { this.state.bean_plants !== null &&
                         <Button
                             onClick={() => {
                                 this.upgradeCollector('bean_plant_level', 0.05);
@@ -297,7 +298,7 @@ class Game extends React.Component {
             </div>
         )
     }
-    
+
 }
 
 ReactDOM.render(

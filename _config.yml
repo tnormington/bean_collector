@@ -1,5 +1,9 @@
 baseurl: /bean_collector
 
 exclude: [
-  assets_src
+  assets_src,
+  gulpfile.js,
+  package.json,
+  README.md,
+  node_modules
 ]

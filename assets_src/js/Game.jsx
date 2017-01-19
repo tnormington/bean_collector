@@ -3,7 +3,7 @@ import Button from './Button.jsx';
 import TriButton from './TriButton.jsx';
 import Model from './Model.jsx';
 
-const debug = true;
+const debug = false;
 
 
 
@@ -115,7 +115,7 @@ export default class Game extends React.Component {
                     onClick={() => {
                         this.toggleHelpMessages()
                     }}
-                    canAfford={this.canIAfford(100, 'beans')}
+                    canAfford={true}
                   />
                 </section>
                 <section className="game-details">

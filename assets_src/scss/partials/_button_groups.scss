@@ -1,0 +1,12 @@
+.button-group-4 {
+  display: flex;
+  .button {
+    flex-basis: 25%;
+    &:first-child {
+      margin-left: 0;
+    }
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+}

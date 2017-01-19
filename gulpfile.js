@@ -10,10 +10,10 @@ var gutil = require('gulp-util');
 var babelify = require('babelify');
 
 gulp.task('styles', function() {
-    gulp.src('./assets_src/scss/style.scss')
+    gulp.src('assets_src/scss/style.scss')
         .pipe(sourcemaps.init())
             .pipe(sass({
-                includePaths: ['./assets_src/scss/partials']
+                includePaths: ['assets_src/scss/partials']
             }).on('error', sass.logError))
         .pipe(sourcemaps.write())
         .pipe(gulp.dest('./assets/css'));
@@ -23,7 +23,7 @@ gulp.task('styles', function() {
 // but include in your application deployment
 var dependencies = [
 	'react',
-  	'react-dom'
+	'react-dom'
 ];
 // keep a count of the times a task refires
 var scriptsCount = 0;
@@ -50,7 +50,7 @@ function bundleApp(isProduction) {
 	// Browserify will bundle all our js files together in to one and will let
 	// us use modules in the front end.
 	var appBundler = browserify({
-    	entries: './assets_src/js/app.js',
+    	entries: 'assets_src/js/app.jsx',
     	debug: true
   	})
 
@@ -66,10 +66,10 @@ function bundleApp(isProduction) {
 			.bundle()
 			.on('error', gutil.log)
 			.pipe(source('vendors.js'))
-			.pipe(gulp.dest('./web/js/'));
+			.pipe(gulp.dest('assets/js/'));
   	}
   	if (!isProduction){
-  		// make the dependencies external so they dont get bundled by the 
+  		// make the dependencies external so they dont get bundled by the
 		// app bundler. Dependencies are already bundled in vendor.js for
 		// development environments.
   		dependencies.forEach(function(dep){
@@ -83,10 +83,10 @@ function bundleApp(isProduction) {
 	    .bundle()
 	    .on('error',gutil.log)
 	    .pipe(source('bundle.js'))
-	    .pipe(gulp.dest('./web/js/'));
+	    .pipe(gulp.dest('./assets/js/'));
 }
 
 gulp.task('watch', function() {
-    gulp.watch('./assets_src/scss/**/*.scss', ['styles']);
-    gulp.watch('./assets_src/js/**/*.jsx', ['scripts']);
+    gulp.watch('assets_src/scss/**/*.scss', ['styles']);
+    gulp.watch('assets_src/js/**/*.jsx', ['scripts']);
 });

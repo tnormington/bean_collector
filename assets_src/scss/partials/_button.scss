@@ -8,13 +8,12 @@
     outline: 0;
     width: 100%;
     padding: 0 0.5em;
-    padding-right: 2.5em;
     margin-bottom: 0.5em;
     transition: all 0.15s ease-out;
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    border-radius: 3px;
+    border-radius: $border_radius;
     border: 1px solid lighten($blue, 25%);
     box-shadow: 0 1px 2px rgba(black, 0.25);
     font-size: 1em;
@@ -82,3 +81,23 @@
         }
     }
 }
+
+.button-small {
+  // flex-basis: 24%;
+  flex-basis: calc(25% - 0.5em);
+}
+
+.button-icon-only {
+  padding: 0.5em;
+  // margin: 0;
+  display: inline-block;
+  width: auto;
+  min-height: auto;
+  &:before {
+    display: none;
+    margin: 0;
+  }
+}
+
+@import "tri_button";
+@import "button_groups";

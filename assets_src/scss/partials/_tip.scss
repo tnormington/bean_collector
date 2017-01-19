@@ -4,19 +4,21 @@
     justify-content: center;
     // margin-left: 1em;
     top: 50%;
+    width: 100%;
     transform: translateY(-50%);
     position: absolute;
-    right: 1em;
+    // right: 1em;
+    left: 0;
 }
 
 .tip-content {
     position: absolute;
-    width: 0%;
+    width: calc(100% - 3em);
     background-color: black;
     color: white;
     padding: 0.5em;
     font-size: 0.65em;
-    right: calc(100% + 0.5em);
+    // right: calc(100% + 0.5em);
     top: 50%;
     margin: 0;
     border-radius: 3px;
@@ -26,7 +28,7 @@
 }
 
 .tip-content.active {
-    width: 320px;
+    width: 100%;
     display: block;
 }
 

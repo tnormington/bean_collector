@@ -27,7 +27,7 @@ export default class Game extends React.Component {
             this.state = {
                 beans: 0,
                 bean_plants: null,
-                bean_plant_level: 0,
+                bean_plant_level: 1,
                 bps: null,
                 bean_extract: null,
                 bean_potion: null,

@@ -15,9 +15,9 @@ export default class Game extends React.Component {
   constructor(props) {
     super(props);
     if(debug) {
-      this.state = Model.debug;
+      this.state = Model.stats_debug;
     } else {
-      this.state = Model.production;
+      this.state = Model.stats_production;
     }
     window.onbeforeunload = () => {
       this.saveGame();

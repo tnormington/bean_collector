@@ -1,0 +1,13 @@
+.progress-bar {
+  padding: 0.25em;
+  border: 1px solid $info;
+  margin-bottom: 0.5em;
+  border-radius: 3px;
+}
+
+.progress-bar-inner {
+  background-color: $info;
+  height: 0.5em;
+  border-radius: 3px;
+  transition: width 0.15s ease-out;
+}

@@ -1,0 +1,29 @@
+.warning {
+  color: $warning;
+}
+
+.error {
+  color: $error;
+}
+
+.success {
+  color: $success;
+}
+
+.info {
+  color: $info;
+}
+
+.hint {
+  font-size: 0.9em;
+  display:inline-block;
+  padding: 0.5em;
+  border: 1px solid $info;
+  background-color: lighten($info, 60);
+  margin: 0 0 0.5em;
+  border-radius: 3px;
+}
+
+.label {
+  margin-right: 0.25em;
+}

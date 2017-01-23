@@ -1,3 +1,7 @@
+
+// Raw Colors
+$yellow: #f0da48;
+$orange: #ff7b01;
 $red:    rgb(156, 24, 33);
 $blue:   rgb(55, 89, 145);
 $green:  rgb(13, 131, 11);
@@ -6,5 +10,16 @@ $gray:   rgb(149, 149, 149);
 $dark_gray: #2d2d2d;
 $white: #ffffff;
 
+// Color Variables
+$success:  $green;
+$warning: $orange;
+$info:    $blue;
+$error:   $red;
+
+// Seasons
+$spring:  lighten($green, 65);
+$summer:  lighten($yellow, 33);
+$fall:    lighten($orange, 45);
+$winter:  lighten($blue, 55);
 
 $border_radius: 3px;

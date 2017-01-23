@@ -1,0 +1,27 @@
+@import 'incrementor/incrementor';
+
+.upgrade-group {
+  display: flex;
+  .incrementor {
+    margin-right: 0.5em;
+  }
+}
+
+
+.upgrade-group_details_level {
+  padding: 0.5em;
+  border: 1px solid $gray;
+  border-radius: 3px;
+  display: inline-block;
+  margin: 0.25em 0;
+  .value {
+    font-weight: 600;
+    color: $gray;
+    &.positive {
+      color: $success;
+    }
+    &.negative {
+      color: $error;
+    }
+  }
+}

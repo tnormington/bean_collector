@@ -1,7 +1,7 @@
 .button {
     font-weight: 300;
     background-color: white;
-    background-image: linear-gradient(white, darken(white, 7%));
+    // background-image: linear-gradient(white, darken(white, 7%));
     min-height: 50px;
     color: black;
     border: 0;
@@ -14,7 +14,7 @@
     justify-content: flex-start;
     align-items: center;
     border-radius: $border_radius;
-    border: 1px solid lighten($blue, 25%);
+    border: 1px solid lighten($info, 25%);
     box-shadow: 0 1px 2px rgba(black, 0.25);
     font-size: 1em;
     position: relative;
@@ -27,9 +27,9 @@
         display: inline-block;
         font-size: 0.8em;
         opacity: 0.75;
-        color: $green;
+        color: $success;
         &.cannot-afford {
-            color: $red;
+            color: $error;
         }
     }
     .level {
@@ -47,7 +47,7 @@
         background-image: none;
         opacity: 0.5;
         pointer-events: none;
-        border-color: $gray;
+        background-color: lighten($gray, 25);
         &:hover {
             box-shadow: none;
         }
@@ -62,7 +62,9 @@
         }
     }
     &:active {
-        box-shadow: inset 0px 0px 5px rgba(0, 0, 0, 0.5);
+      background-color: $warning;
+      color: $white;
+        // box-shadow: inset 0px 0px 5px rgba(0, 0, 0, 0.5);
         // background-color: #999;
         // color: white;
     }
@@ -87,17 +89,55 @@
   flex-basis: calc(25% - 0.5em);
 }
 
-.button-icon-only {
+.button-icon-only,
+.button-with-icon,
+.button-with-image {
   padding: 0.5em;
   // margin: 0;
   display: inline-block;
   width: auto;
   min-height: auto;
+  margin: 0 0.15em 0.5em;
   &:before {
     display: none;
     margin: 0;
   }
+  &:first-child {
+    margin-left: 0;
+  }
+  &:last-child {
+    margin-right: 0;
+  }
+  i {
+    transition: all 0.15s ease-out;
+  }
+  &:hover {
+    i {
+      color: $warning;
+    }
+  }
+  &:active {
+    i {
+      color: $white;
+    }
+  }
+}
+.button-with-icon {
+  i {
+    margin-left: 0.5em;
+  }
 }
 
-@import "tri_button";
+.button-with-image {
+  width: 50px;
+  height: 50px;
+  min-width: 50px;
+  min-height: 50px;
+  flex: 50px 0 0;
+}
+
+
 @import "button_groups";
+@import "button_icons";
+@import "button_images";
+@import "tip/tip";

@@ -2,7 +2,7 @@ var gulp = require('gulp');
 var sass = require('gulp-sass');
 var sourcemaps = require('gulp-sourcemaps');
 var babel = require('gulp-babel');
-var react = require('gulp-react');
+// var react = require('gulp-react');
 var concat = require('gulp-concat');
 var browserify = require('browserify');
 var source = require('vinyl-source-stream');
@@ -23,7 +23,9 @@ gulp.task('styles', function() {
 // but include in your application deployment
 var dependencies = [
 	'react',
-	'react-dom'
+	'react-dom',
+  // 'jquery',
+  // 'jquery-ui'
 ];
 // keep a count of the times a task refires
 var scriptsCount = 0;

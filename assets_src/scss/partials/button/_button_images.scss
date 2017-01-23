@@ -1,0 +1,20 @@
+.button-with-image {
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center center;
+  border: inset 10px transparent;
+  background-color: $white;
+  background-image: none;
+  &.beans {
+    background-image: url('../images/beans.png');
+  }
+  &.bean-plants {
+    background-image: url('../images/bean_plant.png');
+  }
+  &.bean-extract {
+    background-image: url('../images/bean_extract.png');
+  }
+  &.bean-potion {
+    background-image: url('../images/bean_potion.png');
+  }
+}

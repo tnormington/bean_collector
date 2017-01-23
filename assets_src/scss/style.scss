@@ -1,9 +1,11 @@
 @import "normalize";
 @import "variables";
 @import "global";
-@import "game_details";
-@import "button";
-@import "button_icons";
-@import "upgrades";
+@import "utility";
+@import "game/game";
+@import "button/button";
+@import "upgrade_group/upgrade_group";
+@import "accordion/accordion";
+@import "action/action";
+@import "progress_bar/progress_bar";
 @import "grid";
-@import "tip";

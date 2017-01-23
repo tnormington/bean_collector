@@ -1,0 +1,52 @@
+.accordion {
+  margin-bottom: 0.5em;
+  .accordion_header {
+    position: relative;
+    cursor: pointer;
+    padding: 0.5em;
+    transition: all 0.15s ease-out;
+    border-radius: 3px;
+    border: 1px solid lighten($gray, 30);
+    margin-bottom: 0.25em;
+    &:hover {
+      background-color: $white;
+    }
+  }
+  .accordion_header_indicator {
+    position: absolute;
+    top: 50%;
+    right: 1em;
+    color: $info;
+    transform: translateY(-50%);
+    i {
+      transition: all 0.15s ease-out;
+    }
+  }
+  .accordion_content {
+    padding: 0.5em;
+    border: 1px solid lighten($gray, 30);
+    background-color: darken($white, 2);
+    border-radius: 3px;
+  }
+  &:hover {
+    .accordion_header_indicator {
+      color: $warning;
+    }
+  }
+  &.closed {
+    .accordion_header_indicator {
+
+    }
+    .accordion_content {
+      display: none;
+    }
+  }
+  &.open {
+    .accordion_header {
+      background-color: $white;
+    }
+    .accordion_header_indicator i {
+      transform: rotate(180deg);
+    }
+  }
+}

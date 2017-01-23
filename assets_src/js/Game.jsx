@@ -127,6 +127,7 @@ export default class Game extends React.Component {
 
   render() {
     let mystery_bean_potion_available = false;
+    let can_afford_mystery_bean_potion = false;
     if(
       this.state.red_bean_potions !== null
       || this.state.blue_bean_potions !== null
@@ -134,17 +135,16 @@ export default class Game extends React.Component {
       || this.state.black_bean_potions !== null
     ) {
       mystery_bean_potion_available = true;
+      if(
+        this.state.red_bean_potions >= 1
+        && this.state.blue_bean_potions >= 1
+        && this.state.green_bean_potions >= 1
+        && this.state.black_bean_potions >= 1
+      ) {
+        can_afford_mystery_bean_potion = true;
+      }
     }
 
-    let can_afford_mystery_bean_potion = false;
-    if(
-      this.state.red_bean_potions >= 1
-      && this.state.blue_bean_potions >= 1
-      && this.state.green_bean_potions >= 1
-      && this.state.black_bean_potions >= 1
-    ) {
-      can_afford_mystery_bean_potion = true;
-    }
 
     let season = 'spring';
     const t = this.state.time;

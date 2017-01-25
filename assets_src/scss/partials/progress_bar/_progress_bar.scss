@@ -1,13 +1,62 @@
 .progress-bar {
-  padding: 0.25em;
-  border: 1px solid $info;
-  margin-bottom: 0.5em;
+  border: 1px solid darken($info, 10);
+  // margin-bottom: 0.5em;
   border-radius: 3px;
+  transition: all 1.5s ease-out;
+  overflow: hidden;
+  &.spring {
+    border-color: darken($success, 10);
+    .progress-bar-inner {
+      background-color: $success;
+    }
+  }
+  &.summer {
+    border-color: darken($yellow, 10);
+    .progress-bar-inner {
+      background-color: $yellow;
+      .progress-bar-tag {
+        color: darken($yellow, 50);
+      }
+    }
+  }
+  &.fall {
+    border-color: darken($warning, 10);
+    .progress-bar-inner {
+      background-color: $warning;
+    }
+  }
+  &.winter {
+    border-color: darken($info, 10);
+    .progress-bar-inner {
+      background-color: $info;
+    }
+  }
+}
+
+.progress-bar-group {
+  // padding: 0.5em;
+  // border: 1px solid $white;
+  margin-bottom: 0.5em;
+  .label {
+    margin-bottom: 0.25em;
+    display: block;
+  }
 }
 
 .progress-bar-inner {
   background-color: $info;
-  height: 0.5em;
+  height: 1.5em;
   border-radius: 3px;
   transition: width 0.15s ease-out;
+  position: relative;
+  transition: all 1.5s ease-out;
+}
+
+.progress-bar-tag {
+  position: absolute;
+  right: 0.5em;
+  top: 50%;
+  transform: translateY(-50%);
+  color: $white;
+  transition: all 1.5s ease-out;
 }

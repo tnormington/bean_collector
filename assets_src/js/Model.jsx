@@ -1,6 +1,7 @@
 const Model = {
   stats_debug: {
     time: 0,
+    season: 'spring',
     beans: 10000,
     bean_plants: 10000,
     bean_planters: 100,
@@ -15,6 +16,7 @@ const Model = {
   },
   stats_production: {
     time: 0,
+    season: 'spring',
     beans: 0,
     bean_plants: null,
     bean_planters: null,

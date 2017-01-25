@@ -6,6 +6,7 @@ import Accordion from './Accordion.jsx';
 import Action from './Action.jsx';
 import Detail from './Detail.jsx';
 import ProgressBar from './ProgressBar.jsx';
+import Modal from './Modal.jsx';
 
 const debug = false;
 
@@ -51,17 +52,39 @@ export default class Game extends React.Component {
     let bps = 0;
     let bean_plants = 0;
 
+    // Currently the only thing pulling in beans are the bean plants, so we
     if(this.state.bean_plants !== null) {
       bean_plants = this.state.bean_plants;
     }
-    bps += bean_plants * this.state.bean_plant_level;
+
+    // Decrease bean collection rate in the winter
+    if(this.state.season == 'winter') {
+      bean_plants = bean_plants/2;
+    }
+
+
+    bps += Math.floor(bean_plants) * this.state.bean_plant_level - (this.state.bean_planters * 5);
     this.setState({
       bps: bps
     });
     return bps;
   }
 
-  canIAfford(cost, item) {
+  // Returns either true or false depending on whether the values are available
+  // at the time of execution
+  // Accepts either a cost and a value, or an object with unlimited cost : item
+  canIAffordThese(items) {
+    let canAfford = true;
+    for(let item of items) {
+      if(!this.canIAffordThis(item.cost, item.item)) {
+        canAfford = false;
+      }
+    }
+
+    return canAfford;
+  }
+
+  canIAffordThis(cost, item) {
     if(this.state[item] >= cost) {
       return true;
     } else {
@@ -81,13 +104,36 @@ export default class Game extends React.Component {
 
   componentDidMount() {
     setInterval(() => {
+      // console.log(this.state.bean_plants + this.state.bean_planters / 20);
       this.setState((prevState) => ({
         beans: prevState.beans + this.calculateBps()/10,
-        bean_plants: prevState.bean_plants + this.state.bean_planters / 200,
+        bean_plants: (this.state.bean_plants) ? prevState.bean_plants + this.state.bean_planters / 200 : null,
         time: this.passTime(),
+        season: this.getSeason(),
       }))
     }, Model.gameSettings.intervalTick);
 
+  }
+
+  // Return the current season as a string
+  // Example: if time = 300, this would return "Summer"
+  getSeason() {
+    let season = 'Spring';
+    const t = this.state.time;
+    if (t >= 0 && t <= 250) {
+      season = 'Spring';
+      $('body').removeClass('summer fall winter').addClass('spring');
+    } else if (t > 250 && t <= 500) {
+      season = 'Summer';
+      $('body').removeClass('spring fall winter').addClass('summer');
+    } else if (t > 500 && t <= 750) {
+      season = 'Fall';
+      $('body').removeClass('summer spring winter').addClass('fall');
+    } else if (t > 750 && t <= 1000) {
+      season = 'Winter';
+      $('body').removeClass('summer fall spring').addClass('winter');
+    }
+    return season;
   }
 
   // Returns the new time based on the intervalTick,
@@ -102,9 +148,15 @@ export default class Game extends React.Component {
       return newTime;
     }
   }
+  //
+  // toggleHelpMessages() {
+  //   $('.tip-content').toggle();
+  // }
 
-  toggleHelpMessages() {
-    $('.tip-content').toggle();
+
+  // Show information modal
+  showInfo() {
+    $('.modal.info').fadeIn('fast');
   }
   saveGame() {
     var gameStateObject = this.state;
@@ -145,29 +197,29 @@ export default class Game extends React.Component {
       }
     }
 
-
-    let season = 'spring';
-    const t = this.state.time;
-    if (t >= 0 && t <= 250) {
-      season = 'Spring';
-      $('body').removeClass('summer fall winter').addClass('spring');
-    } else if (t > 250 && t <= 500) {
-      season = 'Summer';
-      $('body').removeClass('spring fall winter').addClass('summer');
-    } else if (t > 500 && t <= 750) {
-      season = 'Fall';
-      $('body').removeClass('summer spring winter').addClass('fall');
-    } else if (t > 750 && t <= 1000) {
-      season = 'Winter';
-      $('body').removeClass('summer fall spring').addClass('winter');
-    }
-
     return (
       <div className="game container">
+        <Modal classes="info">
+          <i className="fa fa-info-circle info-icon"></i><h3>The Great Bean Collector</h3>
+          <p>
+            This is a game about resource collection and management. The game is saved automatically in your browser cache, which means you will lose your save data if you clear it.
+            <br/>
+
+          </p>
+        </Modal>
         <section className="game_settings">
           <Button
             classes="button-with-icon"
-            icon="window-close"
+            icon="info"
+            onClick={() =>{
+              this.showInfo();
+            }}
+            canAfford={true}
+            text="Info"
+            />
+          <Button
+            classes="button-with-icon"
+            icon="close"
             onClick={() =>{
               this.restartGame()
             }}
@@ -179,10 +231,9 @@ export default class Game extends React.Component {
           <ProgressBar
             value={this.state.time}
             max="1000"
-            />
-          <Detail
-            label="Season"
-            value={season}
+            tag={this.state.season}
+            classes={this.state.season.toLowerCase().replace(' ', '-')}
+            label="Progress through the year"
             />
           { this.state.beans !== null &&
             <Detail
@@ -256,55 +307,59 @@ export default class Game extends React.Component {
   open={true}
   headerText="Actions"
   hint="">
-  <Action
-    onClick={() => {
-      this.incrementValue(1, 'beans');
-    }}
-    title="Collect A Bean"
-    buttonText="Collect"
-    desc="Collect a single bean, every bean counts."
-    classes="beans"
-    canAfford={true}
-    />
-  { this.state.beans !== null &&
     <Action
       onClick={() => {
-        this.decrementValue(10, 'beans');
-        this.incrementValue(1, 'bean_plants');
+        this.incrementValue(1, 'beans');
       }}
-      title="Plant A Bean Plant"
-      cost="10 Beans"
-      classes="bean-plants"
-      desc="Bean Plants create 1 bean per second."
-      canAfford={this.canIAfford(10, 'beans')}
+      title="Collect A Bean"
+      buttonText="Collect"
+      desc="Collect a single bean, every bean counts."
+      classes="beans"
+      canAfford={true}
+      key='beans_action'
       />
-  }
-  { this.state.bean_plants !== null &&
-    <div>
+    { this.state.beans !== null &&
       <Action
         onClick={() => {
-          this.decrementValue(5, 'bean_plants');
-          this.incrementValue(1, 'bean_extract');
+          this.decrementValue(10, 'beans');
+          this.incrementValue(1, 'bean_plants');
         }}
-        title="Create Bean Extract"
-        cost="5 Bean Plants"
-        classes="bean-extract"
-        desc="Bean Extract is harvested from 5 bean plants, and used to create various potions."
-        canAfford={this.canIAfford(5, 'bean_plants')}
+        title="Plant A Bean Plant"
+        cost="10 Beans"
+        classes="bean-plants"
+        desc="Bean Plants create 1 bean per second."
+        canAfford={this.canIAffordThis(10, 'beans')}
+        key="bean_plant_action"
         />
-      <Action
-        onClick={() => {
-          this.incrementValue(1, 'bean_planters');
-          console.log('bean planter hired');
-        }}
-        title="Hire A Bean Planter"
-        cost="100 Beans"
-        upkeep="5 Beans/Sec"
-        desc="Hire a Bean Planter to continuously plant Bean Plants, with an upkeep cost."
-        canAfford={this.canIAfford(100, 'beans')}
-        />
-    </div>
-  }
+    }
+    { this.state.bean_plants !== null &&
+      <div>
+        <Action
+          onClick={() => {
+            this.decrementValue(5, 'bean_plants');
+            this.incrementValue(1, 'bean_extract');
+          }}
+          title="Create Bean Extract"
+          cost="5 Bean Plants"
+          classes="bean-extract"
+          desc="Bean Extract is harvested from 5 bean plants, and used to create various potions."
+          canAfford={this.canIAffordThis(5, 'bean_plants')}
+          key="bean_extract_action"
+          />
+        <Action
+          onClick={() => {
+            this.incrementValue(1, 'bean_planters');
+            console.log('bean planter hired');
+          }}
+          title="Hire A Bean Planter"
+          cost="100 Beans"
+          upkeep="5 Beans/Sec"
+          desc="Hire a Bean Planter to continuously plant Bean Plants, with an upkeep cost."
+          canAfford={this.canIAffordThese([{cost:100, item:'beans'}, {cost:5, item:'bps'}])}
+          key="bean_planter_action"
+          />
+      </div>
+    }
 </Accordion>
 { this.state.bean_extract !== null &&
   <Accordion
@@ -322,7 +377,7 @@ export default class Game extends React.Component {
         classes="bean-potion bean-potion--red"
         desc="Red potions harness the power of the angry bean."
         cost="5 Bean Extract"
-        canAfford={this.canIAfford(5, 'bean_extract')}
+        canAfford={this.canIAffordThis(5, 'bean_extract')}
         />
     }
     { this.state.bean_extract !== null &&
@@ -335,7 +390,7 @@ export default class Game extends React.Component {
         classes="bean-potion button-small bean-potion--green"
         desc="Green potions harness the power of the mellow bean."
         cost="5 Bean Extract"
-        canAfford={this.canIAfford(5, 'bean_extract')}
+        canAfford={this.canIAffordThis(5, 'bean_extract')}
         />
     }
     { this.state.bean_extract !== null &&
@@ -348,7 +403,7 @@ export default class Game extends React.Component {
         classes="bean-potion button-small bean-potion--blue"
         desc="Blue potions harness the power of the magic bean."
         cost="5 Bean Extract"
-        canAfford={this.canIAfford(5, 'bean_extract')}
+        canAfford={this.canIAffordThis(5, 'bean_extract')}
         />
     }
     { this.state.bean_extract !== null &&
@@ -361,7 +416,7 @@ export default class Game extends React.Component {
         classes="bean-potion button-small bean-potion--black"
         desc="Black potions harness the power of the dark bean."
         cost="5 Bean Extract"
-        canAfford={this.canIAfford(5, 'bean_extract')}
+        canAfford={this.canIAffordThis(5, 'bean_extract')}
         />
     }
     { mystery_bean_potion_available &&
@@ -398,7 +453,7 @@ export default class Game extends React.Component {
         this.downgradeCollector(0.05, 'bean_plant_level');
         this.incrementValue(50, 'beans');
       }}
-      canUpgrade={this.canIAfford(100, 'beans')}
+      canUpgrade={this.canIAffordThis(100, 'beans')}
       canDowngrade={(this.state.bean_plant_level > 1)}
       desc = 'Upgrade Bean Plant Collection Rate by 5%'
       cost = 'Cost 100 Beans'

@@ -1,14 +1,15 @@
 
 // Raw Colors
-$yellow: #f0da48;
-$orange: #ff7b01;
+$yellow: #fae974;
+$orange: #ffb649;
 $red:    rgb(156, 24, 33);
-$blue:   rgb(55, 89, 145);
-$green:  rgb(13, 131, 11);
+$blue:   rgb(62, 103, 170);
+$green:  rgb(57, 153, 55);
 $purple: rgb(35, 5, 45);
 $gray:   rgb(149, 149, 149);
 $dark_gray: #2d2d2d;
 $white: #ffffff;
+$black: #000000;
 
 // Color Variables
 $success:  $green;
@@ -17,9 +18,9 @@ $info:    $blue;
 $error:   $red;
 
 // Seasons
-$spring:  lighten($green, 65);
-$summer:  lighten($yellow, 33);
-$fall:    lighten($orange, 45);
-$winter:  lighten($blue, 55);
+$spring:  lighten($green, 45);
+$summer:  lighten($yellow, 20);
+$fall:    lighten($orange, 20);
+$winter:  lighten($blue, 45);
 
 $border_radius: 3px;

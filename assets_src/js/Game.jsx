@@ -52,13 +52,13 @@ export default class Game extends React.Component {
     let bps = 0;
     let bean_plants = 0;
 
-    // Currently the only thing pulling in beans are the bean plants, so we
+    // Currently the only thing pulling in beans are the bean plants
     if(this.state.bean_plants !== null) {
       bean_plants = this.state.bean_plants;
     }
 
     // Decrease bean collection rate in the winter
-    if(this.state.season == 'winter') {
+    if(this.state.season === 'Winter') {
       bean_plants = bean_plants/2;
     }
 
@@ -70,9 +70,7 @@ export default class Game extends React.Component {
     return bps;
   }
 
-  // Returns either true or false depending on whether the values are available
-  // at the time of execution
-  // Accepts either a cost and a value, or an object with unlimited cost : item
+
   canIAffordThese(items) {
     let canAfford = true;
     for(let item of items) {
@@ -178,7 +176,7 @@ export default class Game extends React.Component {
   }
 
   render() {
-    let mystery_bean_potion_available = false;
+    let mystery_bean_potion_visible = false;
     let can_afford_mystery_bean_potion = false;
     if(
       this.state.red_bean_potions !== null
@@ -186,7 +184,7 @@ export default class Game extends React.Component {
       || this.state.green_bean_potions !== null
       || this.state.black_bean_potions !== null
     ) {
-      mystery_bean_potion_available = true;
+      mystery_bean_potion_visible = true;
       if(
         this.state.red_bean_potions >= 1
         && this.state.blue_bean_potions >= 1
@@ -204,7 +202,8 @@ export default class Game extends React.Component {
           <p>
             This is a game about resource collection and management. The game is saved automatically in your browser cache, which means you will lose your save data if you clear it.
             <br/>
-
+            <br/>
+            Bean Plants are half as effective during the Winter season. Plan for this by stockpiling Beans near the end of Fall.
           </p>
         </Modal>
         <section className="game_settings">
@@ -227,83 +226,97 @@ export default class Game extends React.Component {
             text="Restart"
             />
         </section>
-        <section className="game-details">
-          <ProgressBar
-            value={this.state.time}
-            max="1000"
-            tag={this.state.season}
-            classes={this.state.season.toLowerCase().replace(' ', '-')}
-            label="Progress through the year"
-            />
-          { this.state.beans !== null &&
-            <Detail
-              label="Beans"
-              value={this.state.beans.toFixed(2)}
+        <Accordion
+          open={true}
+          headerText="Stats"
+          hint="">
+          <section className="game-details">
+            <ProgressBar
+              value={this.state.time}
+              max="1000"
+              tag={this.state.season}
+              classes={this.state.season.toLowerCase().replace(' ', '-')}
+              label="Progress through the year"
               />
+            { this.state.beans !== null &&
+              <Detail
+                label="Beans"
+                value={this.state.beans.toFixed(2)}
+                />
+            }
+            { this.state.bps !== null &&
+              <Detail
+                label="Beans/Sec"
+                value={this.state.bps.toFixed(2)}
+                />
+            }
+            { this.state.bean_plants !== null &&
+              <Detail
+                label="Bean Plants"
+                value={Math.floor(this.state.bean_plants)}
+                />
+            }
+            { this.state.bean_planters !== null &&
+              <Detail
+                label="Bean Planters"
+                value={this.state.bean_planters}
+                />
+            }
+            { this.state.bean_extract !== null &&
+              <Detail
+                label="Bean Extract"
+                value={this.state.bean_extract}
+                />
+            }
+            { this.state.mystery_bean_plants !== null &&
+              <Detail
+                label="Mystery Bean Plants"
+                value={this.state.mystery_bean_plants}
+                />
+            }
+            { mystery_bean_potion_visible &&
+              <div className="potions">
+                <h4>Potions</h4>
+                <div className="grid-4">
+                  { this.state.red_bean_potions !== null &&
+                    <div className="red-bean-potions">
+                      Red: <span className="value">{this.state.red_bean_potions}</span>
+                  </div>
+                }
+                { this.state.green_bean_potions !== null &&
+                  <div className="green-bean-potions">
+                    Green: <span className="value">
+                    {this.state.green_bean_potions}
+                  </span>
+                </div>
+              }
+              { this.state.blue_bean_potions !== null &&
+                <div className="blue-bean-potions">
+                  Blue: <span className="value">
+                  {this.state.blue_bean_potions}
+                </span>
+              </div>
+            }
+            { this.state.black_bean_potions !== null &&
+              <div className="black-bean-potions">
+                Black: <span className="value">
+                {this.state.black_bean_potions}
+              </span>
+            </div>
           }
-          { this.state.bps !== null &&
-            <Detail
-              label="Beans/Sec"
-              value={this.state.bps.toFixed(2)}
-              />
-          }
-          { this.state.bean_plants !== null &&
-            <Detail
-              label="Bean Plants"
-              value={Math.floor(this.state.bean_plants)}
-              />
-          }
-          { this.state.bean_planters !== null &&
-            <Detail
-              label="Bean Planters"
-              value={this.state.bean_planters}
-              />
-          }
-          { this.state.bean_extract !== null &&
-            <Detail
-              label="Bean Extract"
-              value={this.state.bean_extract}
-              />
-          }
-        <h4>Potions</h4>
-        <div className="grid-4">
-          { this.state.red_bean_potions !== null &&
-            <div className="red-bean-potions">
-              Red: <span className="value">{this.state.red_bean_potions}</span>
+          { this.state.mystery_bean_potions !== null &&
+            <div className="black-bean-potions">
+              Mystery: <span className="value">
+              {this.state.mystery_bean_potions}
+            </span>
           </div>
         }
-        { this.state.green_bean_potions !== null &&
-          <div className="green-bean-potions">
-            Green: <span className="value">
-            {this.state.green_bean_potions}
-          </span>
-        </div>
-      }
-      { this.state.blue_bean_potions !== null &&
-        <div className="blue-bean-potions">
-          Blue: <span className="value">
-          {this.state.blue_bean_potions}
-        </span>
       </div>
-    }
-    { this.state.black_bean_potions !== null &&
-      <div className="black-bean-potions">
-        Black: <span className="value">
-        {this.state.black_bean_potions}
-      </span>
     </div>
-  }
-  { this.state.mystery_bean_potions !== null &&
-    <div className="black-bean-potions">
-      Mystery: <span className="value">
-      {this.state.mystery_bean_potions}
-    </span>
-  </div>
-}
-</div>
-</section>
+            }
+  </section>
+</Accordion>
 <Accordion
-  className="actions"
   open={true}
   headerText="Actions"
   hint="">
@@ -349,7 +362,7 @@ export default class Game extends React.Component {
         <Action
           onClick={() => {
             this.incrementValue(1, 'bean_planters');
-            console.log('bean planter hired');
+            this.decrementValue(100, 'beans');
           }}
           title="Hire A Bean Planter"
           cost="100 Beans"
@@ -359,6 +372,20 @@ export default class Game extends React.Component {
           key="bean_planter_action"
           />
       </div>
+    }
+    { this.state.mystery_bean_potions &&
+      <Action
+        onClick={() => {
+          this.incrementValue(1, 'mystery_bean_plant');
+          this.decrementValue(1, 'mystery_bean_potions');
+          this.decrementValue(1000, 'beans');
+        }}
+        title="Plant a Mystery Bean Plant"
+        classes="plant-mystery-bean-plant"
+        desc="Mystery Bean Plants are only harvested once a year, but their fruit is very valuable."
+        cost="1 Mystery Potion + 1000 Beans"
+        canAfford={this.canIAffordThese([{cost:1, item:'mystery_bean_potions'}, {cost:1000, item:'beans'}])}
+        />
     }
 </Accordion>
 { this.state.bean_extract !== null &&
@@ -419,7 +446,7 @@ export default class Game extends React.Component {
         canAfford={this.canIAffordThis(5, 'bean_extract')}
         />
     }
-    { mystery_bean_potion_available &&
+    { mystery_bean_potion_visible &&
       <Action
         onClick={() => {
           this.decrementValue(1, 'red_bean_potions');
@@ -431,7 +458,7 @@ export default class Game extends React.Component {
         title="Mystery"
         classes="bean-potion button-small bean-potion--mystery"
         desc="Mystery potions harness the power of the unknown."
-        cost="1 Red / 1 Blue / 1 Green / 1 Black Potion"
+        cost="1 Red + 1 Blue + 1 Green + 1 Black Potion"
         canAfford={can_afford_mystery_bean_potion}
         />
     }
